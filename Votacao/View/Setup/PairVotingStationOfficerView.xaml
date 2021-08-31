@@ -1,0 +1,144 @@
+﻿<UserControl x:Class="Votacao.View.Setup.PairVotingStationOfficerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"             
+             xmlns:mvvmc="clr-namespace:MVVMC;assembly=MVVMC"
+             xmlns:converter="clr-namespace:Votacao.View.Converter"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converter:BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+            <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+            <TextBlock 
+                Grid.Row="0"
+                FontSize="24"
+                FontWeight="Bold">Configuração da estação</TextBlock>
+            <TextBlock 
+                Grid.Row="1"
+                FontSize="16"
+                HorizontalAlignment="Center"
+                Text="Selecione os terminais que devem ser pareados" />
+            <Controls:ProgressRing 
+                Grid.Row="2"
+                IsActive="{Binding IsActive}" />
+            <ScrollViewer 
+                Grid.Row="2">
+                <DataGrid 
+                    Width="750" 
+                    ItemsSource="{Binding Itens}" 
+                    Visibility="{Binding VisibilityGrid}"
+                    CanUserSortColumns="True" 
+                    CanUserAddRows="False" 
+                    RowHeight="50"
+                    VerticalContentAlignment="Center"
+                    AutoGenerateColumns="False"
+                    materialDesign:DataGridAssist.CellPadding="13 8 8 8" 
+                    materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+                    Background="White" x:Name="dtg">
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}"
+                                        TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="#226096" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontSize" Value="16" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn 
+                            Binding="{Binding IP}" 
+                            Header="IP"  
+                            FontSize="16" 
+                            Width="150"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                        <DataGridTextColumn 
+                            Binding="{Binding NicknameStation}" 
+                            Header="Apelido"  
+                            FontSize="16" 
+                            Width="200"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                        <DataGridTextColumn 
+                            Binding="{Binding HostName}" 
+                            Header="Host Name" 
+                            FontSize="16" 
+                            Width="250"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                        <DataGridTemplateColumn
+                            Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsConnected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsPaired, Converter={StaticResource InverseBooleanConverter}}"></CheckBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button 
+                                        Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                                        ToolTip="Remover urna"
+                                        Visibility="{Binding IsPaired, Converter={StaticResource VisibleIfTrueConverter}}"
+                                        Height="30" 
+                                        Width="30" 
+                                        Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                        CommandParameter="{Binding Path=IP}">
+                                        <materialDesign:PackIcon 
+                                            Kind="DeleteOutline" 
+                                            Height="25" 
+                                            Width="25"
+                                            Foreground="White"/> 
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+            <Label
+                Grid.Row="3"
+                Content="{Binding ErrorMessage}"
+                HorizontalAlignment="Center" 
+                Foreground="Red"
+                FontSize="14"/>
+            <StackPanel 
+                Grid.Row="4"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center">
+                <Button 
+                    Name="btnBack" 
+                    Foreground="White"
+                    Margin="5" 
+                    Width="120"
+                    Height="35"
+                    VerticalAlignment="Center" 
+                    FontSize="16"
+                    Padding="5"
+                    Visibility="{Binding VisibilityBackButton}"
+                    Command="{mvvmc:NavigateCommand Action=Back, ControllerID=Wizard}">Voltar</Button>
+                <Button 
+                    Name="btnForward" 
+                    Foreground="White"
+                    Margin="5" 
+                    Width="120"
+                    Height="35"
+                    VerticalAlignment="Center" 
+                    FontSize="16"
+                    Padding="5" 
+                    Command="{mvvmc:NavigateCommand Action=Next, ControllerID=Wizard}">Próximo</Button>
+            </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,10 @@
+﻿packages
+.vs
+votacao/bin
+votacao/obj
+VotacaoTest/bin
+VotacaoTest/obj
+TestResults
+*.txt
+*/*.*.user
+*/*.xsd

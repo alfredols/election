@@ -1,0 +1,93 @@
+﻿<UserControl 
+    x:Class="Votacao.View.ucLogin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    FocusManager.FocusedElement="{Binding ElementName=txtLogin}"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    Background="White"
+    Width="500" 
+    Height="500">
+    <Grid>
+        <materialDesign:Card 
+            HorizontalAlignment="Center" 
+            Width="450" 
+            Height="450"
+            Padding="10" 
+            Margin="7,4,1,4" 
+            Grid.Row="1">
+            <StackPanel 
+                Margin="32,0,32,0" 
+                VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock 
+                            Text="Login"  
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center" 
+                            FontSize="24"
+                            FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBox 
+                        Margin="0, 30, 0, 0" 
+                        x:Name="txtLogin" 
+                        materialDesign:HintAssist.Hint="Login"  
+                        TextWrapping="NoWrap" 
+                        KeyDown="Textbox_KeyDown" 
+                        MaxLength="20" 
+                        FontSize="21"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Foreground="Black">
+                    </TextBox>
+                    <PasswordBox 
+                        Margin="0, 30, 0, 0" 
+                        materialDesign:HintAssist.Hint="Senha" 
+                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
+                        Name="txtPassword" 
+                        KeyDown="Textbox_KeyDown" 
+                        MaxLength="8" 
+                        FontSize="21"/>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                        <Button 
+                            Foreground="White"
+                            Background="{DynamicResource PrimaryHueLightBrush}"
+                            Height="40"
+                            Width="150"
+                            HorizontalAlignment="Center" 
+                            Margin="0, 30, 20, 30" 
+                            Content="Entrar" 
+                            Click="Button_ClickAsync"/>
+                        <Button 
+                            Visibility="{Binding VisibilityCancelButton, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Foreground="White"
+                            Background="{DynamicResource PrimaryHueLightBrush}"
+                            Height="40"
+                            Width="150"
+                            HorizontalAlignment="Center" 
+                            Margin="0, 30, 0, 30" 
+                            Content="Cancelar"
+                            Click="Button_Click"/>
+                    </StackPanel>
+                    <Controls:ProgressRing 
+                        HorizontalAlignment="Center" 
+                        IsActive="False" 
+                        Name="progressRingLogin" 
+                        Width="50" 
+                        Height="50"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Snackbar 
+            Grid.Row="1" 
+            HorizontalAlignment="Stretch"
+            x:Name="SnackbarMessageLogin" 
+            VerticalAlignment="Bottom">
+            <materialDesign:SnackbarMessage
+                Content="Login e/ou senha inválidos."
+                ActionContent="Fechar" 
+                ActionClick="SnackbarMessage_ActionClick"/>
+        </materialDesign:Snackbar>
+    </Grid>
+</UserControl>

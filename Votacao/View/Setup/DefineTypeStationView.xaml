@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="Votacao.View.Setup.DefineTypeStationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mvvmc="clr-namespace:MVVMC;assembly=MVVMC"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:wizard="clr-namespace:Votacao.View.Setup"
+             VerticalAlignment="Stretch"
+             HorizontalAlignment="Stretch"
+             Background="White">
+    <UserControl.Resources>
+        <wizard:StationConverter x:Key="enumConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock 
+            Grid.Row="0"
+            FontSize="24"
+            FontWeight="Bold">Configuração da estação</TextBlock>
+        <TextBlock 
+            Grid.Row="1"
+            FontSize="16" 
+            TextAlignment="Justify"
+            HorizontalAlignment="Center"
+            TextWrapping="WrapWithOverflow">
+            Para configurar a estação de trabalho, será necessário passar pelos passos deste guia de configuração.
+            Primeiro será necessário definir qual será o papel desta estação e um apelido para a máquina:
+        </TextBlock>
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                <Style x:Key="Flag" TargetType="RadioButton">
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        Background="Transparent"
+                                        CornerRadius="5"
+                                        Width="150"
+                                        Height="130">
+                                <Grid 
+                                    Margin="0,0,0,10"
+                                    VerticalAlignment="Stretch">
+                                        <Image 
+                                            Source="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                            ToolTip="{Binding Path=ToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Width="100"
+                                            Height="100"
+                                            VerticalAlignment="Center"></Image>
+                                <TextBlock 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Bottom"
+                                    FontSize="12"
+                                    Text="{Binding Path=ToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Margin="0, 0, 0, 5"></TextBlock>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </StackPanel.Resources>
+            <RadioButton    
+                Style="{StaticResource Flag}"
+                Content="../Images/icone_Mesario.png"
+                GroupName="tipo" 
+                ToolTip="Estação de mesário"
+                IsChecked="{Binding Path=TypeStation, Mode=TwoWay, 
+                            Converter={StaticResource enumConverter},
+                            ConverterParameter=VOTING_OFFICER}" 
+                Margin="10" />
+            <RadioButton    
+                Style="{StaticResource Flag}"
+                Content="../Images/icone_Urna_3.png"
+                ToolTip="Estação de urna (TVME)"
+                GroupName="tipo" 
+                Margin="10"
+                IsChecked="{Binding Path=TypeStation, Mode=TwoWay, 
+                            Converter={StaticResource enumConverter},
+                            ConverterParameter=BALLOT_BOX}" />
+            <RadioButton    
+                Style="{StaticResource Flag}"
+                Content="../Images/icone_TerminalBusca.png"
+                ToolTip="Terminal de busca"
+                GroupName="tipo" 
+                Margin="10"
+                IsChecked="{Binding Path=TypeStation, Mode=TwoWay, 
+                            Converter={StaticResource enumConverter},
+                            ConverterParameter=VOTER_SEARCH}" />
+        </StackPanel>
+        <TextBox 
+            Grid.Row="3"
+            Text="{Binding NicknameStation}"  
+            materialDesign:HintAssist.Hint="Digite o apelido da máquina" 
+            Width="250"
+            Height="50"
+            TextWrapping="NoWrap" 
+            MaxLength="20" 
+            FontSize="18" 
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+        <Label 
+            Grid.Row="4"
+            Foreground="Red" 
+            FontSize="16" 
+            HorizontalAlignment="Center"
+            Content="Por favor, selecione o tipo do terminal e informe o apelido para prosseguir." 
+            Visibility="{Binding MessageVisibility}"/>
+        <Button 
+            Grid.Row="5"
+            Name="btnForward" 
+            Foreground="White"
+            Margin="5" 
+            Width="120"
+            Height="35"
+            VerticalAlignment="Center" 
+            FontSize="16"
+            Padding="5" 
+            Command="{mvvmc:NavigateCommand Action=Next, ControllerID=Wizard}">Próximo</Button>
+    </Grid>
+</UserControl>

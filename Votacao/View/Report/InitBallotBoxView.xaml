@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Votacao.View.Report.InitBallotBoxView"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" 
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock 
+            Grid.Row="0"
+            FontSize="24"
+            FontWeight="Bold">Relatórios</TextBlock>
+        <DataGrid 
+            Width="400"
+            Grid.Row="1"
+            Name="dgFile"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            CanUserSortColumns="True" 
+            CanUserAddRows="False" 
+            AutoGenerateColumns="False"
+            materialDesign:DataGridAssist.CellPadding="13 8 8 8" 
+            materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+            Background="White">
+            <DataGrid.Resources>
+                <Style 
+                    BasedOn="{StaticResource {x:Type DataGridColumnHeader}}"
+                    TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#226096" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="14" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridHyperlinkColumn Binding="{Binding Identifier}" Header="Arquivo">
+                    <DataGridHyperlinkColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <EventSetter Event="Hyperlink.Click" Handler="OnCellHyperlinkClick"/>
+                        </Style>
+                    </DataGridHyperlinkColumn.ElementStyle>
+                </DataGridHyperlinkColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel 
+            Grid.Row="2"
+            Orientation="Horizontal"
+            Margin="0,20,0,0">
+            <Button 
+                x:Name="btnEmissionZero" 
+                Content="Gerar zerésima e iniciar votação" 
+                HorizontalAlignment="Left"
+                Foreground="White"
+                Margin="0,5,20,0" 
+                VerticalAlignment="Top" 
+                Height="40" 
+                Click="btnEmissionZero_Click" />
+            <Button 
+                x:Name="btnEmissionBU" 
+                Content="Emitir BU e encerrar votação" 
+                HorizontalAlignment="left"
+                Foreground="White"
+                Margin="0,5,0,0" 
+                VerticalAlignment="Top" 
+                Height="40" 
+                Click="btnEmissionBU_Click" />
+        </StackPanel>
+        <Controls:ProgressRing 
+            x:Name="prReport"
+            Grid.Row="3"/>
+    </Grid>
+</UserControl>

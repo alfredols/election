@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Votacao.View.Setup.PairBallotBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mvvmc="clr-namespace:MVVMC;assembly=MVVMC"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock 
+            Grid.Row="0"
+            FontSize="24"
+            FontWeight="Bold">Configuração da estação</TextBlock>
+        <TextBlock 
+            Grid.Row="1"
+            FontSize="16" 
+            HorizontalAlignment="Center"
+            Text="Procurando o terminal do mesário"/>
+        <Controls:ProgressRing
+            VerticalAlignment="Center"
+            Grid.Row="2"
+            IsActive="true" />
+        <StackPanel 
+            Grid.Row="3"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center">
+            <Button 
+                Name="btnBack" 
+                Foreground="White"
+                Margin="5" 
+                Width="120"
+                Height="35"
+                VerticalAlignment="Center" 
+                FontSize="16"
+                Padding="5" 
+                Command="{mvvmc:NavigateCommand Action=Back, ControllerID=Wizard}">Voltar</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

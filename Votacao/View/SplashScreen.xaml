@@ -1,0 +1,15 @@
+﻿<Window x:Class="Votacao.View.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ShowInTaskbar="False"
+        Title="SplashScreen" 
+        Height="400" Width="600">
+    <Grid>
+        <Image Margin="20,0,20,0" Source="Images/splashScreen.png"></Image>
+    </Grid>
+</Window>
